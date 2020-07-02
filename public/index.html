@@ -2,8 +2,57 @@
 <html>
     <head>
         <title>Actor Manager</title>
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+
+        <script defer src="jquery.min.js"></script>
+        <script defer src="index.js"></script>
     </head>
     <body>
-        <h1>Works</h1>
+        <header>
+            <div class="container">
+                <div class="row row-header aling-items-center justify-content-center ">
+                    <div class="col text-center">
+                        <h2>Actor Manager</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label for="userName">Name</label>
+                        <input type="text" class="form-control" id="userName" placeholder="Name">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="movieName">Movie</label>
+                        <input type="text" class="form-control" id="movieName" placeholder="Movie Name">
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="startDate">Start Date</label>
+                        <input type="text" class="form-control" id="startDate" placeholder="DD-MON">
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="endDate">End Date</label>
+                        <input type="text" class="form-control" id="endDate" placeholder="DD-MON">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <a href>Submit</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <h6>an @anandumurli product</h6>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

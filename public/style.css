@@ -1,0 +1,20 @@
+header{
+    background: #9575CD;
+    color: floralwhite;
+    margin-bottom: 35px;
+    padding-top: 55px;
+    height: 170px;
+    width: 100%;
+}
+
+
+footer{
+    margin:0;
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    background: #D1C4E9;
+    color: black;
+    padding-top: 25px;
+    height: 50px;
+}
