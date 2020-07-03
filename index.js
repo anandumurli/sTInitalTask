@@ -29,7 +29,7 @@ app.post('/selectedMovie', (req,res) =>{
                             'actorName': req.body.name,
                             'movies' :  [
                                 {
-                                    'movieName': req.body.movies[0].mName,
+                                    'mName': req.body.movies[0].mName,
                                     'stDate': req.body.movies[0].stDate,
                                     'ndDate': req.body.movies[0].ndDate,
                                     'stMon': req.body.movies[0].stMon,

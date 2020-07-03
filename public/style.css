@@ -22,3 +22,15 @@ footer{
 a{
     padding: 100px;
 }
+
+form{
+    margin-bottom: 70px;
+}
+
+p{
+    margin: 0;
+}
+
+.hidden{
+    display: none;
+}
