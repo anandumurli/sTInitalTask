@@ -1,9 +1,10 @@
 // $(document).ready(function(){
+
     
 // });
 
 function sendData(){
-    var name = document.getElementById('myform')[0].value;
+    var name = document.getElementById('myform')[0].value.toUpperCase();
     var mName = document.getElementById('myform')[1].value;
     var stDate = document.getElementById('myform')[2].value;
     var endDate = document.getElementById('myform')[3].value;
@@ -15,15 +16,37 @@ function sendData(){
     var ndMon = ndAr[1].toUpperCase()
 
     var formData = {
-        'name': name, 
-        'mName': mName,
-        'stDate': stDate,
-        'stMon': stMon,
-        'ndDate': ndDate,
-        'ndMonth':ndMon
+        name: name,
+        movies:[
+            {
+                mName: mName,
+                stDate: stDate,
+                stMon: stMon,
+                ndDate: ndDate,
+                ndMonth:ndMon
+            }
+        ] 
         
     }
 
     var fd = JSON.stringify(formData)
-    console.log(' some data was sent', fd)
+
+    const http = new XMLHttpRequest()
+    http.open('POST', 'http://localhost:3000/selectedMovie')
+    http.setRequestHeader('Content-type', 'application/json')
+    http.send(fd) 
+    http.onload = function() {
+        // Do whatever with response
+        console.log(http.responseText)
+    }
+}
+
+function showData(){
+    var name = document.getElementById('myform')[0].value.toUpperCase();
+    
+    $.getJSON(`http://localhost:3000/sm/${name}`, function(d,s){
+        console.log(d);
+        alert(`hey, ${d.actorName}, you have successfully made ${d.movies.length} crore.`)
+        console.log(s)
+    })
 }

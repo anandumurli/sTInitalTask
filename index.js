@@ -1,8 +1,10 @@
+
 var http = require('http');
 var express = require('express');
+var bodyParser = require('body-parser');
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 
 const mongoose  = require('./database/mongoose');    
 const Actor = require('./database/models/actor');
@@ -17,17 +19,97 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 
-
-
-
-
-
-
-
-
-app.get('/sm/:id', (req,res) =>{
-    SelectMovies.findById(req.params.id)
+//final trial one
+app.post('/selectedMovie', (req,res) =>{
+    SelectMovies.findOne({actorName: req.body.name})
                 .then((list) => {
+                    if(list == null){
+                        //save a new entry with the movie
+                        (new SelectMovies({
+                            'actorName': req.body.name,
+                            'movies' :  [
+                                {
+                                    'movieName': req.body.movies[0].mName,
+                                    'stDate': req.body.movies[0].stDate,
+                                    'ndDate': req.body.movies[0].ndDate,
+                                    'stMon': req.body.movies[0].stMon,
+                                    'ndMonth': req.body.movies[0].ndMonth,
+                                }
+                            ]                    
+                        })).save()
+                           .then((list) => {
+                                res.send(list)
+                           })
+                           .catch((err) => {
+                               console.log(err)
+                           })
+                    }else{
+                        var dets = list.movies.length
+                        if(list.movies[dets-1].stMon == req.body.movies[0].stMon){
+                            if(list.movies[dets-1].ndMonth == req.body.movies[0].stMon){
+                                if(list.movies[dets-1].ndDate < req.body.movies[0].stDate){
+                                    list.movies[dets] = req.body.movies[0]
+                                    SelectMovies.updateOne({_id: list._id},{
+                                        movies: list.movies
+                                    }).then((nli) =>{
+                                        res.sendStatus(200)
+                                    }).catch((err) =>{
+                                        console.log(err)
+                                    })
+                                }
+                                else{
+                                    res.send('no data inserted first')
+                                }
+                            }
+                            else{
+                                res.send('no data inserted secon')
+                            }
+                        }else{
+                            if(list.movies[dets-1].ndMonth != req.body.movies[0].stMon){
+                                
+                                list.movies[dets] = req.body.movies[0]
+                                SelectMovies.updateOne({_id: list._id},{
+                                    movies: list.movies
+                                }).then((nli) =>{
+                                    res.sendStatus(200)
+                                }).catch((err) =>{
+                                    console.log(err)
+                                })
+                            }else{
+                                if(list.movies[dets-1].ndDate < req.body.movies[0].stDate ){
+                                    list.movies[dets] = req.body.movies[0]
+                                    SelectMovies.updateOne({_id: list._id},{
+                                        movies: list.movies
+                                    }).then((nli) =>{
+                                        res.sendStatus(200)
+                                    }).catch((err) =>{
+                                        console.log(err)
+                                    })
+                                }
+                                else{
+                                    res.send('data not inserted last condition')
+                                }
+                            }
+                        }
+                    }
+                }) 
+                .catch((err) => {
+                    console.log(err)
+                })
+})
+
+
+
+
+
+
+
+app.get('/sm/:name', (req,res) =>{
+    SelectMovies.findOne({actorName: req.params.name})
+                .then((list) => {
+                    if(list == null){
+                        console.log('need this as new entry')
+                    }
                     res.send(list)
                 })
                 .catch((err) => {console.log(err)})
@@ -51,7 +133,7 @@ app.post('/selectMovie', (req,res) =>{
 })
 
 //use this logic to update the selectMovies
-app.patch('/sm/:id', (req,res) => {
+app.patch('/sm/:name', (req,res) => {
     SelectMovies.findById(req.params.id)
                 .then((li) =>{
                     var dets = li.movies.length
